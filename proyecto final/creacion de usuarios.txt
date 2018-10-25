@@ -1,0 +1,44 @@
+--
+--administrador:
+--
+
+GRANT ALL ON libreria.* TO administradorBD IDENTIFIED BY 'administrador';
+
+
+--
+--supervisor:
+--
+
+grant select,insert,update on libreria.libro to supervisorLO identified by 'supervisor';
+GRANT SELECT,INSERT,UPDATE,DELETE ON libreria.cliente TO supervisorLO IDENTIFIED BY 'supervisor';
+GRANT SELECT,INSERT,UPDATE,DELETE ON libreria.proveedor TO supervisorLO IDENTIFIED BY 'supervisor';
+grant select,insert,update on libreria.vende to supervisorLO identified by 'supervisor';
+grant select,insert on libreria.empleado to supervisorLO identified by 'supervisor';
+grant select,insert,update on libreria.surte to supervisorLO identified by 'supervisor';
+grant execute on libreria.* to supervisorLO identified by 'supervisor';
+
+
+--
+--Vendedor:
+--
+
+grant select on libreria.libro to vendedorLO identified by 'vendedor';
+grant select,insert,update on libreria.cliente to vendedorLO identified by 'vendedor';
+grant select,insert on libreria.vende to vendedorLO identified by 'vendedor';
+grant execute on libreria.* to vendedorLO identified by 'vendedor';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         

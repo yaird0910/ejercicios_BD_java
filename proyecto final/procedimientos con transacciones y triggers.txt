@@ -1,0 +1,54 @@
+--- trigger
+
+delimiter //
+DROP TRIGGER IF EXISTS actualizar;
+Create trigger actualizar after insert on libreria.empleado for each row 
+Begin
+Insert into empleados_nuevos(nombre,curp,puesto,estado) values(new.nombre,new.curp,new.puesto,’A PRUEBA’);
+END//
+delimiter;
+
+
+
+
+
+---insertar venta
+
+delimiter //
+drop procedure if exists inserta_venta;
+create procedure inserta_venta(in Folio int, in Codigo_Libro int,in Codigo_Cliente int,in Fecha_venta date, in Nombre_cliente varchar(50),in Nombre_Empleado varchar(50),in Total_Compra int)
+ BEGIN
+Start transaction;
+insert into vende values(Folio,Codigo_Libro,Codigo_Cliente,Fecha_venta,Nombre_cliente,Nombre_Empleado,Total_Compra);
+ update libro set existencias=existencias-1 where cod_libro=Codigo_Libro;
+ update cliente set compras=compras+1,total_compras=total_compras+Total_Compra where cod_cliente=Codigo_Cliente;
+ update empleado set ventas=ventas+1,total_ventas=total_ventas+Total_Compra where nombre=Nombre_Empleado;
+commit;
+END
+//
+Delimiter ;
+
+
+
+
+
+
+
+---insertar surtido
+
+
+Delimiter //
+Drop procedure if exists surtir;
+create procedure surtir(in Folio int,in Codigo_Libro int,in rfc varchar(50),in fecha_surtido date,in nombre_proveedor varchar(50),in nombre_supervisor varchar(50),cantidad int)
+BEGIN
+Start transaction;
+insert into surte values(Folio,Codigo_Libro,rfc,fecha_surtido,nombre_proveedor,nombre_supervisor,cantidad);
+update proveedor set Num_Surtidos=Num_Surtidos+1 where Nombre=nombre_proveedor;
+update libro set existencias=existencias+cantidad where cod_libro=Codigo_Libro;
+commit;
+END 
+//
+delimiter ;
+
+
+
